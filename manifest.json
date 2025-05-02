@@ -1,0 +1,21 @@
+
+{
+  "manifest_version": 3,
+  "name": "CleverCraft Cover Letter Generator",
+  "version": "1.0",
+  "description": "Generate cover letters on Upwork with CleverCraft",
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": ["https://clever-86au.onrender.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.upwork.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

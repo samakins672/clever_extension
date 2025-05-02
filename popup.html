@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CleverCraft Extension</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 250px;
+      padding: 10px;
+    }
+
+    input,
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    #status {
+      color: green;
+      font-size: 14px;
+    }
+
+    #error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h3 id="headline">Login</h3>
+
+  <div id="loginStep">
+    <input type="email" id="email" placeholder="Enter email" />
+    <button id="sendCodeBtn">Send Code</button>
+    <input type="text" id="code" placeholder="Enter code" class="hidden" />
+    <button id="verifyCodeBtn" class="hidden">Verify Code</button>
+  </div>
+
+  <div id="profileStep" class="hidden">
+    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+    <p><strong>Name:</strong> <span id="profileName"></span></p>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <p id="status"></p>
+  <p id="error"></p>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
