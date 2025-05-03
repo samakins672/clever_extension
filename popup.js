@@ -1,3 +1,6 @@
+const loginStep = document.getElementById('loginStep');
+const sendCodeDiv = document.getElementById('send-code');
+const verifyCodeDiv = document.getElementById('verify-code');
 const emailInput = document.getElementById('email');
 const codeInput = document.getElementById('code');
 const sendCodeBtn = document.getElementById('sendCodeBtn');
@@ -8,7 +11,8 @@ const profileName = document.getElementById('profileName');
 const logoutBtn = document.getElementById('logoutBtn');
 const status = document.getElementById('status');
 const error = document.getElementById('error');
-const headline = document.getElementById('headline');
+const signUpDiv = document.getElementById('sign-up-div');
+// const headline = document.getElementById('headline');
 
 async function apiPost(endpoint, data) {
   const res = await fetch(`https://clever-86au.onrender.com${endpoint}`, {
@@ -16,6 +20,10 @@ async function apiPost(endpoint, data) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
+  if (!res.ok) {
+    const errorData = "Error with server, try again later."
+    return { error: true, message: errorData.message || 'An error occurred' };
+  }
   return res.json();
 }
 
@@ -36,8 +44,8 @@ sendCodeBtn.addEventListener('click', async () => {
   const res = await apiPost('/accounts/login', { email });
   if (res && !res.error) {
     showStatus(res.message);
-    codeInput.classList.remove('hidden');
-    verifyCodeBtn.classList.remove('hidden');
+    verifyCodeDiv.classList.remove('hidden');
+    sendCodeDiv.classList.add('hidden');
   } else {
     showError('Failed to send code.');
   }
@@ -49,7 +57,8 @@ verifyCodeBtn.addEventListener('click', async () => {
   if (!code) return showError('Enter code');
   showStatus('Verifying...');
   const res = await apiPost('/accounts/verify', { email, code });
-  if (res.data.access && res.data.refresh) {
+  if (res.data) {
+    showStatus('');
     await chrome.storage.local.set({
       clevercraftAccessToken: res.data.access,
       clevercraftRefreshToken: res.data.refresh
@@ -73,10 +82,10 @@ async function loadProfile() {
   });
   if (res.ok) {
     const profile = await res.json();
-    headline.textContent = 'Profile';
     profileEmail.textContent = profile.data.email || '';
     profileName.textContent = `${profile.data.first_name || ''} ${profile.data.last_name || ''}`;
-    document.getElementById('loginStep').classList.add('hidden');
+    loginStep.classList.add('hidden');
+    signUpDiv.classList.add('hidden');
     profileStep.classList.remove('hidden');
   } else {
     showError('Session expired. Please log in again.');
