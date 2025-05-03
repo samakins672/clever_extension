@@ -47,7 +47,7 @@ sendCodeBtn.addEventListener('click', async () => {
     verifyCodeDiv.classList.remove('hidden');
     sendCodeDiv.classList.add('hidden');
   } else {
-    showError('Failed to send code.');
+    showError('Failed to send code or email is invalid.');
   }
 });
 
