@@ -33,9 +33,9 @@ async function injectGenerateButton() {
     // Inside your injectGenerateButton function...
     generateBtn.addEventListener('click', async () => {
       generateBtn.innerText = '⏳ Generating...';
-      const { clevercraftToken } = await chrome.storage.local.get('clevercraftToken');
-      if (!clevercraftToken) {
-        alert('Please set your CleverCraft token in the extension popup.');
+      const { clevercraftAccessToken } = await chrome.storage.local.get('clevercraftAccessToken');
+      if (!clevercraftAccessToken) {
+        alert('Please login in the extension popup to get started.');
         generateBtn.innerText = '❌ Token Missing';
         setTimeout(() => { generateBtn.innerText = '💥 Generate Cover Letter'; }, 2000);
         return;
@@ -63,7 +63,7 @@ async function injectGenerateButton() {
         action: 'generateCoverLetter',
         payload: {
           jobDescription,
-          token: clevercraftToken
+          token: clevercraftAccessToken
         }
       });
     });
